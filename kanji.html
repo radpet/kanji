@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="three.min.js"></script>
+    <script src="kanji.js"></script>
+</head>
+
+<body onload="main()">
+<!-- В тага h1 си напишете факултетния номер, групата в Мудъл и двете си имена-->
+<h1>ф.н. 81501 &ndash; група 2 &ndash; Радослав Петков</h1>
+
+<script>
+  var material = new THREE.MeshPhongMaterial({color: 'gray', shininess: 100});
+
+  var extrude = {
+    amount: 5,
+    bevelEnabled: false
+  };
+
+  function MyShape(x, y) {
+    this.shape = new THREE.Shape();
+    this.shape.moveTo(x / 5, y / 5);
+  }
+
+  MyShape.prototype.lineTo = function (x, y) {
+    this.shape.lineTo(x / 5, y / 5);
+    return this;
+  };
+
+  MyShape.prototype.curveTo = function (cpx, cpy, x, y) {
+    this.shape.quadraticCurveTo(cpx / 5, cpy / 5, x / 5, y / 5);
+    return this;
+  };
+
+  function toMesh(shape) {
+    return new THREE.Mesh(new THREE.ExtrudeGeometry(shape.shape, extrude), material);
+  }
+
+  // горна част
+  var a1 = new MyShape(42.3, 19.7)
+    .lineTo(42.3, 38.3)
+    .lineTo(11.9, 38.3)
+    .lineTo(11.8, 49.5)
+    .lineTo(3.6, 49.5)
+    .lineTo(3.7, 38.3)
+    .lineTo(-24.9, 38.3)
+    .lineTo(-25.0, 24.8)
+    .lineTo(-18.3, 18.1)
+    .lineTo(-16.9, 18.0)
+    .lineTo(-16.9, 30.2)
+    .lineTo(34.1, 30.2)
+    .lineTo(34.0, 19.7)
+    .lineTo(42.3, 19.7);
+
+  // парчето от долната част
+  var a2 = new MyShape(33.3, -33.1)
+    .lineTo(33.5, -16.4)
+    .lineTo(33.5, -12.0)
+    .lineTo(12.1, -12.0)
+    .lineTo(20.0, -19.9)
+    .lineTo(24.7, -19.9)
+    .lineTo(24.7, -24.6)
+    .lineTo(33.3, -33.1);
+
+  // извита надолу под горния елемент
+  var c = new MyShape(37.1, 3.1)
+    .curveTo(5.7 * 5, 3 * 5, 14.8, 21.6)
+    .lineTo(19.7, 26.5)
+    .curveTo(6.5 * 5, 4.3 * 5, 42.5, 8.7)
+    .lineTo(37.1, 3.1);
+
+  // покрива (десен)
+  var d = new MyShape(44.3, -21.1)
+    .curveTo(4.5 * 5, -10.0, 6.0, 6.0)
+    .lineTo(13.6, 9, 7)
+    .curveTo(26.1, -2.5, 49.4, -14.7)
+    .lineTo(44.3, -21.1);
+
+  // шантавата част от лява страна на покрива
+  var e = new MyShape(-2.8, 2.8)
+    .lineTo(3.2, -3.2)
+    .curveTo(2.45 * 5, 5.85, 15.2, 12.6)
+    .lineTo(9.4, 17.0)
+    .curveTo(0.22 * 5, 6.1, -2.8, 2.8);
+
+  // над покрива (ляв) горната част
+  var p = new MyShape(-14.5, 14.4)
+    .curveTo(-0.8 * 5, 4.7 * 5, -3.4, 25.6)
+    .lineTo(2.5, 21)
+    .curveTo(-0.3 * 5, 2.7 * 5, -9.1, 9.0)
+    .lineTo(-14.5, 14.4);
+
+  // най-горе отрязаната крива
+  var c3 = new MyShape(-44.1, 43.5)
+    .lineTo(-42.2, 46.0)
+    .curveTo(-6.2 * 5, 8.5 * 5, -24, 33.5)
+    .lineTo(-28.9, 28.7);
+
+
+  part1.add(toMesh(a1), toMesh(a2), toMesh(c), toMesh(d), toMesh(e), toMesh(c3), toMesh(p));
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // парчето от горната част
+  var b1 = new MyShape(-25.1, 18.1)
+    .lineTo(-25.0, 24.8)
+    .lineTo(-18.3, 18.1)
+    .lineTo(-25.1, 18.1);
+
+  // долната част
+  var b2 = new MyShape(24.9, -49.6)
+    .lineTo(24.7, -43.0)
+    .lineTo(-7.4, -43.0)
+    .lineTo(-7.4, -49.6)
+    .lineTo(-16.0, -49.6)
+    .lineTo(-16.1, -17.9)
+    .lineTo(-16.1, -12.0)
+    .lineTo(12.1, -12.0)
+    .lineTo(20.0, -19.9)
+    .lineTo(-7.4, -20.0)
+    .lineTo(-7.4, -34.4)
+    .lineTo(24.7, -34.6)
+    .lineTo(24.7, -24.6)
+    .lineTo(33.3, -33.1)
+    .lineTo(33.3, -49.6)
+    .lineTo(24.9, -49.6);
+
+  // продължението на покрива
+  var e2 = new MyShape(-25.3, -22.1)
+    .lineTo(-30, -15)
+    .curveTo(-3.3 * 5, -2.2 * 5, -2.8, 2.8)
+    .lineTo(3.2, -3.1)
+    .curveTo(-2 * 5, -3 * 5, -25.3, -22.1);
+
+  // извита надолу до горния ляво, отрязаната част долу
+  var c3 = new MyShape(-46.7, 40.24)
+    .lineTo(-44.0, 43.7)
+    .lineTo(-29.0, 28.7)
+    .curveTo(-7.2 * 5, 7.2 * 5, -46.7, 40.24);
+
+  // извита надолу малко по-надолу
+  var c2 = new MyShape(-30.7, 4.5)
+    .curveTo(-7.6 * 5, 3.0 * 5, -49.5, 17.8)
+    .lineTo(-45.4, 23.3)
+    .curveTo(-6.7 * 5, 4.5 * 5, -25.48, 10.9)
+    .lineTo(-30.7, 4.5);
+
+  // най-долу
+  var z = new MyShape(-49.5, -41.8)
+    .curveTo(-7.3 * 5, -4.8 * 5, -35.1, -0.57)
+    .lineTo(-27.9, -3.9)
+    .curveTo(-5.9 * 5, -6.0 * 5, -42.3, -46.5)
+    .lineTo(-49.5, -41.8);
+
+  // долната част на последния кофти елемент
+  var p2 = new MyShape(-24.9, 8.6)
+    .curveTo(-3.6 * 5, 2.3 * 5, -14.5, 14.4)
+    .lineTo(-9.1, 9)
+    .curveTo(-2.2 * 5, 1.55 * 5, -20.5, 3)
+    .lineTo(-24.9, 8.6);
+
+  part2.add(toMesh(b1), toMesh(b2), toMesh(c3), toMesh(c2), toMesh(z), toMesh(e2), toMesh(p2));
+
+
+</script>
+</body>
+</html>
